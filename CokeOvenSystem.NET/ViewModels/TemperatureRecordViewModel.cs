@@ -11,7 +11,7 @@ namespace CokeOvenSystem.ViewModels
     public partial class TemperatureRecordViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string _statusMessage;
+        private string _statusMessage = string.Empty;
 
         [ObservableProperty]
         private bool _isStatusVisible;
@@ -21,7 +21,7 @@ namespace CokeOvenSystem.ViewModels
 
         private readonly DispatcherTimer _statusTimer;
 
-        public event Action SaveSuccess;
+        public event Action? SaveSuccess;
 
         public TemperatureRecordViewModel()
         {

@@ -8,7 +8,7 @@ namespace CokeOvenSystem.Models
         private int _ovenNumber = 1;
 
         [ObservableProperty]
-        private string _chamber;
+        private string _chamber = string.Empty;
 
         [ObservableProperty]
         private DateTime _previousPushTime = DateTime.Now;

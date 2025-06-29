@@ -14,10 +14,10 @@ namespace CokeOvenSystem.ViewModels
         private int _ovenNumber = 1;
 
         [ObservableProperty]
-        private string _chamber;
+        private string _chamber = string.Empty;
 
         [ObservableProperty]
-        private string _statusMessage;
+        private string _statusMessage = string.Empty;
 
         [ObservableProperty]
         private bool _isStatusVisible;
@@ -141,7 +141,7 @@ namespace CokeOvenSystem.ViewModels
             else
             {
                 // 当前炭化室不在循环表中（理论上不可能），则取第一个
-                Chamber = sequence.FirstOrDefault();
+                Chamber = sequence.FirstOrDefault() ?? string.Empty;
             }
         }
 

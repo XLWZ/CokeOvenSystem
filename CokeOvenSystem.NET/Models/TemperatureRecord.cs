@@ -8,7 +8,7 @@ namespace CokeOvenSystem.Models
         private string _date = DateTime.Now.ToString("yyyy-MM-dd");
 
         [ObservableProperty]
-        private string _timePoint;
+        private string _timePoint = string.Empty;
 
         [ObservableProperty]
         private double _oven1MachineTemp;

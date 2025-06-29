@@ -1,0 +1,85 @@
+﻿<Window x:Class="CokeOvenSystem.Views.OperationRecordWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CokeOvenSystem.ViewModels"
+        xmlns:models="clr-namespace:CokeOvenSystem.Models"
+        Title="推焦装煤记录" Height="400" Width="500"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:OperationRecordViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="焦炉号:"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" 
+                  ItemsSource="{x:Static models:AppModel.OvenNumbers}"
+                  SelectedItem="{Binding OvenNumber, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="炭化室号:"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" 
+                  ItemsSource="{Binding ChamberOptions}"
+                  SelectedItem="{Binding Chamber, UpdateSourceTrigger=PropertyChanged}"
+                  IsEditable="True"
+                  Margin="5"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="前一炉推焦日期:"/>
+        <DatePicker Grid.Row="2" Grid.Column="1" 
+                    SelectedDate="{Binding PreviousPushDate, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="5"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="前一炉推焦时间:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" 
+                 Text="{Binding PreviousPushTimeStr, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5" ToolTip="请输入HH:mm格式的时间 (例如: 14:30)"
+                 Style="{StaticResource TimeTextBoxStyle}"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="新一炉装煤日期:"/>
+        <DatePicker Grid.Row="4" Grid.Column="1" 
+                    SelectedDate="{Binding NewLoadDate, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="5"/>
+
+        <Label Grid.Row="5" Grid.Column="0" Content="新一炉装煤时间:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" 
+                 Text="{Binding NewLoadTimeStr, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5" ToolTip="请输入HH:mm格式的时间 (例如: 14:30)"
+                 Style="{StaticResource TimeTextBoxStyle}"
+                 KeyDown="NewLoadTimeTextBox_KeyDown"/>
+
+        <!-- 状态信息显示 -->
+        <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"
+                CornerRadius="4" Margin="0,10" Padding="10"
+                Visibility="{Binding IsStatusVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="{Binding StatusMessage}"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"/>
+        </Border>
+
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="保存" Width="80" Height="30" Margin="5" 
+                    Command="{Binding SaveRecordCommand}"/>
+            <Button Content="关闭" Width="80" Height="30" Margin="5" Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

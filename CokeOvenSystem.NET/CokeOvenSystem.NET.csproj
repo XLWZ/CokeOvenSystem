@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  
+  <!-- Rust 构建配置 -->
+  <PropertyGroup>
+    <RustProjectDir>$(SolutionDir)coke_oven_system.rs\</RustProjectDir>
+    <RustBuildProfile Condition="'$(Configuration)' == 'Debug'">debug</RustBuildProfile>
+    <RustBuildProfile Condition="'$(Configuration)' == 'Release'">release</RustBuildProfile>
+    <RustTargetDir>$(RustProjectDir)target\$(RustBuildProfile)\</RustTargetDir>
+  </PropertyGroup>
+  
+  <!-- 构建前：编译 Rust 项目并复制 DLL -->
+  <Target Name="BuildRust" BeforeTargets="Build">
+    <!-- 检查 cargo 是否安装 -->
+    <Exec Command="cargo --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="CargoExitCode" />
+    </Exec>
+    <Error Condition="'$(CargoExitCode)' != '0'" Text="Rust/cargo 未安装！请安装 https://rustup.rs" />
+    
+    <!-- 根据配置构建 Rust 项目 -->
+    <Message Importance="high" Text="构建 Rust 库（配置：$(Configuration)）" />
+
+    <PropertyGroup>
+      <RustBuildCommand>cargo build</RustBuildCommand>
+      <RustBuildCommand Condition="'$(Configuration)' == 'Release'">cargo build --release</RustBuildCommand>
+    </PropertyGroup>
+
+    <Exec Command="$(RustBuildCommand)" WorkingDirectory="$(RustProjectDir)" />
+    
+    <!-- 复制 DLL 到输出目录 -->
+    <ItemGroup>
+      <RustDllFiles Include="$(RustTargetDir)*.dll" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(RustDllFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+  </Target>
+
+  <!-- 清理时：删除 Rust DLL -->
+  <Target Name="CleanRust" AfterTargets="Clean">
+    <ItemGroup>
+      <RustDllFiles Include="$(OutputPath)*.dll" />
+    </ItemGroup>
+    <Delete Files="@(RustDllFiles)" />
+  </Target>
+
+  <!-- 打包时包含 DLL -->
+  <ItemGroup>
+    <None Include="$(OutputPath)*.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+    <Page Remove="bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+  </ItemGroup>
+
+</Project>

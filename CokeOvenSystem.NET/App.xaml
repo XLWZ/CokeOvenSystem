@@ -26,7 +26,7 @@
         </Style>
         
         <!-- 时间输入框样式 -->
-        <Style TargetType="TextBox" x:Key="TimeTextBoxStyle">
+        <Style TargetType="TextBox" x:Key="TimeTextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="MaxLength" Value="5"/>

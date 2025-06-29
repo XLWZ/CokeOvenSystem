@@ -1,0 +1,3 @@
+[submodule "coke_oven_system.rs"]
+	path = coke_oven_system.rs
+	url = git@github.com:XLWZ/coke_oven_system.rs.git

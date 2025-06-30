@@ -56,7 +56,7 @@ namespace CokeOvenSystem.Helpers
         public static bool GetTimeInputBehavior(TextBox textBox) =>
             (bool)textBox.GetValue(TimeInputBehaviorProperty);
 
-        public static void SetTimeInputBehavior(TextBlock textBox, bool value) =>
+        public static void SetTimeInputBehavior(TextBox textBox, bool value) =>
             textBox.SetValue(TimeInputBehaviorProperty, value);
 
         private static void OnTimeInputBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

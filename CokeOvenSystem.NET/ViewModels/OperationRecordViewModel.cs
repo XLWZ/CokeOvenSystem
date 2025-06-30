@@ -55,6 +55,8 @@ namespace CokeOvenSystem.ViewModels
             NewLoadTimeStr = DateTime.Now.ToString("HH:mm");
         }
 
+        public event Action<string>? RequestFocus;
+
         [RelayCommand]
         public void SaveRecord()
         {
@@ -113,6 +115,9 @@ namespace CokeOvenSystem.ViewModels
             ShowStatus("操作记录保存成功！", true);
 
             AdvanceToNextChamber();
+
+            // 触发焦点切换事件
+            RequestFocus?.Invoke("PreviousPushTime");
         }
 
         private void AdvanceToNextChamber()

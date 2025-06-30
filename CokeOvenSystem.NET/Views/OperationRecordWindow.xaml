@@ -31,43 +31,47 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="焦炉号:"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" 
+        <ComboBox Grid.Row="0" Grid.Column="1" TabIndex="1 "
                   ItemsSource="{x:Static models:AppModel.OvenNumbers}"
                   SelectedItem="{Binding OvenNumber, UpdateSourceTrigger=PropertyChanged}"
                   Margin="5"/>
 
         <Label Grid.Row="1" Grid.Column="0" Content="炭化室号:"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" 
+        <ComboBox Grid.Row="1" Grid.Column="1" TabIndex="2"
                   ItemsSource="{Binding ChamberOptions}"
                   SelectedItem="{Binding Chamber, UpdateSourceTrigger=PropertyChanged}"
                   IsEditable="True"
                   Margin="5"/>
 
         <Label Grid.Row="2" Grid.Column="0" Content="前一炉推焦日期:"/>
-        <DatePicker Grid.Row="2" Grid.Column="1" 
+        <DatePicker Grid.Row="2" Grid.Column="1" TabIndex="3"
                     SelectedDate="{Binding PreviousPushDate, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5"/>
 
         <Label Grid.Row="3" Grid.Column="0" Content="前一炉推焦时间:"/>
-        <!-- 前一炉推焦时间文本框 -->
-        <TextBox Grid.Row="3" Grid.Column="1" 
+        <!-- 前一炉推焦时间输入框 -->
+        <TextBox x:Name="PreviousPushTimeTextBox" Grid.Row="3" Grid.Column="1" TabIndex="4"
                  Text="{Binding PreviousPushTimeStr, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" ToolTip="请输入HH:mm格式的时间 (例如: 14:30)"
                  helpers:TextBoxHelper.TimeInputBehavior="True"
                  Style="{StaticResource TimeTextBoxStyle}"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="新一炉装煤日期:"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" 
+        <DatePicker Grid.Row="4" Grid.Column="1" TabIndex="5"
                     SelectedDate="{Binding NewLoadDate, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5"/>
 
         <Label Grid.Row="5" Grid.Column="0" Content="新一炉装煤时间:"/>
-        <TextBox Grid.Row="5" Grid.Column="1" 
+        <TextBox x:Name="NewLoadTimeTextBox" Grid.Row="5" Grid.Column="1" TabIndex="6"
                  Text="{Binding NewLoadTimeStr, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" ToolTip="请输入HH:mm格式的时间 (例如: 14:30)"
                  helpers:TextBoxHelper.TimeInputBehavior="True"
                  Style="{StaticResource TimeTextBoxStyle}"
                  KeyDown="NewLoadTimeTextBox_KeyDown"/>
+        
+        <!-- 隐藏控件 作为跳板 -->
+        <Button x:Name="JumpButton" Grid.Row="6" Grid.Column="1"
+                TabIndex="7" Visibility="Collapsed"/>
 
         <!-- 状态信息显示 -->
         <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
